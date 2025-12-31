@@ -1,0 +1,46 @@
+# =====================================================
+# .gitignore - Portal Wisata & Berita Kota
+# =====================================================
+
+# Configuration files with credentials
+config.php
+*.bak
+
+# Log files
+*.log
+reset_log.txt
+
+# Test files
+test.php
+
+# User uploads
+uploads/*
+!uploads/.gitkeep
+
+# Security/Lab documentation (keep locally, exclude from repo)
+INJECTION_PAYLOADS.md
+LAPORAN_BUG_HUNTING.md
+
+# IDE & Editor files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.project
+.settings/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*~

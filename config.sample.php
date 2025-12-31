@@ -4,12 +4,17 @@
  * KONFIGURASI DATABASE
  * Portal Wisata & Berita Kota
  * =====================================================
+ * 
+ * INSTRUKSI:
+ * 1. Salin file ini menjadi 'config.php'
+ * 2. Ubah nilai DB_USER dan DB_PASS sesuai dengan konfigurasi database Anda
+ * 3. Pastikan database sudah dibuat dengan nama yang sesuai
  */
 
 // Konfigurasi Database
 define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_USER', 'root');          // Ganti dengan username database Anda
+define('DB_PASS', '');              // Ganti dengan password database Anda
 define('DB_NAME', 'portal_wisata_berita');
 
 // Konfigurasi Website

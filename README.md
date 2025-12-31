@@ -1,6 +1,6 @@
 # Portal Wisata & Berita Kota
 
-Website Portal Berita & Destinasi Wisata dengan Kerentanan untuk Lab Keamanan IT.
+Website Portal Berita & Destinasi Wisata berbasis PHP Native dengan Bootstrap 5.
 
 ![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
@@ -10,15 +10,16 @@ Website Portal Berita & Destinasi Wisata dengan Kerentanan untuk Lab Keamanan IT
 
 ## Deskripsi
 
-Portal Wisata & Berita Kota adalah website portal informasi yang **sengaja dibuat dengan kerentanan keamanan** untuk keperluan **pembelajaran dan lab keamanan IT**.
+Portal Wisata & Berita Kota adalah website portal informasi yang menyajikan berita terkini dan destinasi wisata menarik di berbagai kota di Indonesia.
 
-Website ini dapat digunakan untuk:
-- Praktik penetration testing
-- Lab mata kuliah keamanan siber
-- Demo vulnerability assessment
-- Training ethical hacking
+### Fitur Utama
 
-> **PERINGATAN:** Website ini mengandung kerentanan yang disengaja. JANGAN gunakan di production!
+- 📰 **Berita Terkini** - Informasi berita terbaru dari berbagai kategori
+- 🏝️ **Destinasi Wisata** - Eksplorasi tempat wisata menarik
+- 🔍 **Pencarian** - Fitur pencarian artikel dan wisata
+- 💬 **Komentar** - Interaksi dengan pembaca melalui komentar
+- 📱 **Responsive** - Tampilan optimal di semua perangkat
+- 👤 **Admin Panel** - Manajemen konten yang mudah
 
 ---
 
@@ -32,40 +33,48 @@ Website ini dapat digunakan untuk:
 
 ### Langkah Instalasi
 
-**1. Clone/Copy ke folder web server**
+**1. Clone repository**
 
 ```bash
-# Untuk XAMPP
-cp -r portal-wisata-berita /path/to/xampp/htdocs/
-
-# Untuk Laragon
-cp -r portal-wisata-berita /path/to/laragon/www/
+git clone https://github.com/username/portal-wisata-berita.git
 ```
 
-**2. Buat database MySQL**
+**2. Pindah ke direktori project**
+
+```bash
+cd portal-wisata-berita
+```
+
+**3. Buat database MySQL**
 
 ```sql
 CREATE DATABASE portal_wisata_berita;
 ```
 
-**3. Import schema database**
+**4. Import schema database**
 
 ```bash
 mysql -u root -p portal_wisata_berita < database/schema.sql
 ```
 
-**4. Konfigurasi koneksi database (opsional)**
+**5. Konfigurasi database**
 
-Edit file `config.php` jika perlu mengubah kredensial:
+Salin file `config.sample.php` menjadi `config.php` dan sesuaikan kredensial:
+
+```bash
+cp config.sample.php config.php
+```
+
+Edit `config.php`:
 
 ```php
 define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_USER', 'your_username');
+define('DB_PASS', 'your_password');
 define('DB_NAME', 'portal_wisata_berita');
 ```
 
-**5. Akses website**
+**6. Akses website**
 
 ```
 http://localhost/portal-wisata-berita/
@@ -73,140 +82,88 @@ http://localhost/portal-wisata-berita/
 
 ---
 
-## Fitur
-
-### UI/UX Modern
-
-| Fitur | Deskripsi |
-|-------|-----------|
-| Responsive Design | Mobile-first, tampil baik di semua device |
-| Modern Aesthetic | Desain profesional seperti portal berita nasional |
-| Sticky Navbar | Navbar transparan, berubah solid saat scroll |
-| Card Grid Layout | Tampilan berita/wisata dalam kartu yang rapi |
-| Social Comments | Kolom komentar bergaya media sosial |
-
-### Halaman Tersedia
-
-| File | Deskripsi |
-|------|-----------|
-| `index.php` | Halaman utama dengan hero section & card grid |
-| `login.php` | Halaman login dengan split layout |
-| `search.php` | Pencarian dengan sidebar filter |
-| `view.php` | Detail artikel dengan kolom komentar |
-| `logout.php` | Handler logout |
-
----
-
-## Kerentanan
-
-Website ini mengandung **3 jenis kerentanan** yang umum ditemukan:
-
-### 1. SQL Injection
-
-- **File:** `login.php` (Line 24)
-- **Lokasi:** Form login
-- **Payload:** `admin' OR '1'='1`
-
-```php
-// Vulnerable code
-$query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
-```
-
-### 2. Reflected XSS
-
-- **File:** `search.php`
-- **Lokasi:** Parameter URL `?q=`
-- **Payload:** `<script>alert('XSS')</script>`
-
-```php
-// Vulnerable code
-Hasil pencarian untuk: <?php echo $keyword; ?>
-```
-
-### 3. Stored XSS
-
-- **File:** `view.php`
-- **Lokasi:** Form komentar
-- **Payload:** `<script>alert('XSS')</script>`
-
-```php
-// Vulnerable code
-<?php echo $comment['comment']; ?>
-```
-
-Lihat file `INJECTION_PAYLOADS.md` untuk daftar payload lengkap.
-
----
-
-## Demo Credentials
-
-| Role | Username | Password |
-|------|----------|----------|
-| Administrator | `admin` | `admin123` |
-| Editor | `editor` | `editor123` |
-
----
-
 ## Struktur Project
 
 ```
 portal-wisata-berita/
-├── index.php              # Halaman utama
-├── login.php              # Halaman login [SQLi]
-├── search.php             # Halaman pencarian [Reflected XSS]
-├── view.php               # Detail artikel [Stored XSS]
-├── logout.php             # Handler logout
-├── config.php             # Konfigurasi database
-├── README.md              # Dokumentasi ini
-├── INJECTION_PAYLOADS.md  # Daftar payload testing
-└── database/
-    └── schema.sql         # Schema & dummy data
+├── admin/                 # Panel administrasi
+│   ├── index.php         # Dashboard admin
+│   ├── articles.php      # Manajemen artikel
+│   ├── categories.php    # Manajemen kategori
+│   └── ...
+├── assets/               # Asset statis (CSS, JS, images)
+├── database/             # Schema database
+│   └── schema.sql
+├── includes/             # File include PHP
+│   ├── header.php
+│   ├── footer.php
+│   ├── sidebar.php
+│   └── functions.php
+├── uploads/              # Direktori upload gambar
+├── index.php             # Halaman utama
+├── berita.php            # Halaman berita
+├── wisata.php            # Halaman wisata
+├── search.php            # Halaman pencarian
+├── view.php              # Detail artikel
+├── login.php             # Halaman login
+├── config.sample.php     # Template konfigurasi
+└── README.md             # Dokumentasi
 ```
 
 ---
 
-## Cara Memperbaiki (Referensi)
+## Halaman Tersedia
 
-Untuk pembelajaran, berikut cara memperbaiki kerentanan:
-
-### SQL Injection - Gunakan Prepared Statements
-
-```php
-// Secure code
-$stmt = $conn->prepare("SELECT * FROM users WHERE username=? AND password=?");
-$stmt->bind_param("ss", $username, $password);
-$stmt->execute();
-```
-
-### XSS - Gunakan HTML Encoding
-
-```php
-// Secure code
-<?php echo htmlspecialchars($keyword, ENT_QUOTES, 'UTF-8'); ?>
-<?php echo htmlspecialchars($comment['comment'], ENT_QUOTES, 'UTF-8'); ?>
-```
+| Halaman | File | Deskripsi |
+|---------|------|-----------|
+| Beranda | `index.php` | Halaman utama dengan hero section & artikel terbaru |
+| Berita | `berita.php` | Daftar semua artikel berita |
+| Wisata | `wisata.php` | Daftar destinasi wisata |
+| Pencarian | `search.php` | Pencarian artikel |
+| Detail | `view.php` | Detail artikel dengan komentar |
+| Kategori | `category.php` | Artikel berdasarkan kategori |
+| Tag | `tag.php` | Artikel berdasarkan tag |
+| Penulis | `author.php` | Artikel berdasarkan penulis |
+| Trending | `trending.php` | Artikel populer |
+| Bookmark | `bookmark.php` | Artikel tersimpan |
+| About | `about.php` | Halaman tentang kami |
 
 ---
 
-## Dokumentasi Tambahan
+## Admin Panel
 
-- [OWASP SQL Injection](https://owasp.org/www-community/attacks/SQL_Injection)
-- [OWASP XSS](https://owasp.org/www-community/attacks/xss/)
-- [PortSwigger Web Security Academy](https://portswigger.net/web-security)
+Admin panel tersedia di `/admin/` dengan fitur:
+
+- Dashboard statistik
+- Manajemen artikel (CRUD)
+- Manajemen kategori
+- Moderasi komentar
+- Manajemen subscriber
+- Upload media
+- Pengaturan website
+- Activity logs
 
 ---
 
-## Lisensi & Disclaimer
+## Teknologi
+
+- **Backend:** PHP Native dengan MySQLi
+- **Frontend:** HTML5, CSS3, JavaScript
+- **Framework CSS:** Bootstrap 5.3
+- **Icons:** Font Awesome 6
+- **Database:** MySQL / MariaDB
+
+---
+
+## Lisensi
 
 ```
 MIT License - Copyright (c) 2024
 
-DISCLAIMER:
-Proyek ini dibuat untuk tujuan EDUKASI dan PENELITIAN keamanan.
-Penggunaan untuk menyerang sistem tanpa izin adalah ILEGAL.
-Penulis tidak bertanggung jawab atas penyalahgunaan.
+Proyek ini dilisensikan di bawah MIT License.
+Silakan gunakan dan modifikasi sesuai kebutuhan.
 ```
 
 ---
 
-**Made with Love for Security Education**
+**Made with ❤️ in Indonesia**
